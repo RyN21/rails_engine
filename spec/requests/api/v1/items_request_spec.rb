@@ -48,6 +48,9 @@ describe "Items API" do
   end
 
   it "destroy an item" do
-    
+    merch = create(:merchant)
+    item = create(:item, merchant: merch)
+
+    expect{ delete "/api/v1/items/#{@item.id}" }.to change(Item, :count).by(-1)
   end
 end
