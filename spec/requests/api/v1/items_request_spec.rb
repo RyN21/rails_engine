@@ -13,7 +13,7 @@ describe "Items API" do
 
   it "show page of item" do
     merch = create(:merchant)
-    id = create(:item, merchant: merch).id
+    id    = create(:item, merchant: merch).id
 
     get "/api/v1/items/#{id}"
     item = JSON.parse(response.body)
@@ -35,10 +35,10 @@ describe "Items API" do
   end
 
   it "update a record of an item" do
-    merch = create(:merchant)
-    id = create(:item, merchant: merch).id
+    merch         = create(:merchant)
+    id            = create(:item, merchant: merch).id
     previous_name = Item.last.name
-    item_params = { name: "Quick Draws" }
+    item_params   = { name: "Quick Draws" }
 
     put "/api/v1/items/#{id}", params: {item: item_params}
     item = Item.find_by(id: id)
@@ -47,12 +47,12 @@ describe "Items API" do
     expect(item.name).to_not eq(previous_name)
     expect(item.name).to eq("Quick Draws")
   end
-  #
-  # it "destroy an item" do
-  #   merch = create(:merchant)
-  #   item = create(:item, merchant: merch)
-  #
-  #   expect{ delete "/api/v1/items/#{@item.id}" }.to change(Item, :count).by(-1)
-  #   expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
-  # end
+
+  it "destroy an item" do
+    merch = create(:merchant)
+    item  = create(:item, merchant: merch)
+
+    expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
+    expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end
