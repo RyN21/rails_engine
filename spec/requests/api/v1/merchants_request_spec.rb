@@ -18,15 +18,15 @@ describe "Merchant API" do
     expect(response).to be_successful
     expect(merchant["id"]).to eq(id)
   end
-  #
-  # it "create an merchant" do
-  #   merchant_params = {name: "Rock Gear"}
-  #
-  #   post '/api/v1/merchants', params: {merchant: merchant_params}
-  #   merchant = Marchant.last
-  #   expect(response).to be_successful
-  #   expect(merchant.name).to eq(merchant_params[:name])
-  # end
+
+  it "create an merchant" do
+    merchant_params = {name: "Rock Gear"}
+
+    post '/api/v1/merchants', params: {merchant: merchant_params}
+    merchant = Merchant.last
+    expect(response).to be_successful
+    expect(merchant.name).to eq(merchant_params[:name])
+  end
   #
   # it "update a record of an merchant" do
   #   id = create(:merchant).id
