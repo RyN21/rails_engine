@@ -41,10 +41,10 @@ describe "Merchant API" do
     expect(merchant.name).to eq("Climbing Gear")
   end
 
-  # it "destroy a record of an merchant" do
-  #   merchant  = create(:merchant)
-  #
-  #   expect{ delete "/api/v1/merchants/#{merchant.id}" }.to change(Marchant, :count).by(-1)
-  #   expect{Marchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
-  # end
+  it "destroy a record of an merchant" do
+    merchant  = create(:merchant)
+
+    expect{ delete "/api/v1/merchants/#{merchant.id}" }.to change(Merchant, :count).by(-1)
+    expect{Merchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end
