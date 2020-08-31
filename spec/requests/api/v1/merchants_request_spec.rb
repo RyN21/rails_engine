@@ -10,14 +10,14 @@ describe "Merchant API" do
     expect(merchants.size).to eq(4)
   end
 
-  # it "show page of merchant" do
-  #   id = create(:merchant).id
-  #
-  #   get "/api/v1/merchants/#{id}"
-  #   merchamt = JSON.parse(response.body)
-  #   expect(response).to be_successful
-  #   expect(merchant["id"]).to eq(id)
-  # end
+  it "show page of merchant" do
+    id = create(:merchant).id
+
+    get "/api/v1/merchants/#{id}"
+    merchant = JSON.parse(response.body)
+    expect(response).to be_successful
+    expect(merchant["id"]).to eq(id)
+  end
   #
   # it "create an merchant" do
   #   merchant_params = {name: "Rock Gear"}
