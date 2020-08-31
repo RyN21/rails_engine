@@ -48,7 +48,7 @@ describe "Items API" do
     expect(item.name).to eq("Quick Draws")
   end
 
-  it "destroy an item" do
+  it "destroy a record of an item" do
     merch = create(:merchant)
     item  = create(:item, merchant: merch)
 
