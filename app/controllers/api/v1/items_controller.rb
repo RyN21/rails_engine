@@ -9,7 +9,10 @@ class Api::V1::ItemsController < ApplicationController
 
   def create
     render json: Item.create(item_params)
-    require "pry"; binding.pry
+  end
+
+  def update
+    render json: Item.update(item_params)
   end
 
   private
