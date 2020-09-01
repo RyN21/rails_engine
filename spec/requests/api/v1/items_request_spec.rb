@@ -8,7 +8,7 @@ describe "Items API" do
     get '/api/v1/items'
     expect(response).to be_successful
     items = JSON.parse(response.body)
-    expect(items.size).to eq(3)
+    expect(items['data'].size).to eq(3)
   end
 
   it "show page of item" do
@@ -18,7 +18,7 @@ describe "Items API" do
     get "/api/v1/items/#{id}"
     item = JSON.parse(response.body)
     expect(response).to be_successful
-    expect(item["id"]).to eq(id)
+    expect(item['data']['id'].to_i).to eq(id)
   end
 
   it "create an item" do
@@ -51,7 +51,7 @@ describe "Items API" do
   it "destroy a record of an item" do
     merch = create(:merchant)
     item  = create(:item, merchant: merch)
-
+    
     expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
