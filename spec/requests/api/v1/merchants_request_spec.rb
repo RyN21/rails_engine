@@ -7,7 +7,7 @@ describe "Merchant API" do
     get '/api/v1/merchants'
     expect(response).to be_successful
     merchants = JSON.parse(response.body)
-    expect(merchants.size).to eq(4)
+    expect(merchants['data'].size).to eq(4)
   end
 
   it "show page of merchant" do
@@ -16,7 +16,7 @@ describe "Merchant API" do
     get "/api/v1/merchants/#{id}"
     merchant = JSON.parse(response.body)
     expect(response).to be_successful
-    expect(merchant["id"]).to eq(id)
+    expect(merchant['data']['id'].to_i).to eq(id)
   end
 
   it "create an merchant" do
