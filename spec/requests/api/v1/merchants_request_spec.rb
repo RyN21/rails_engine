@@ -48,3 +48,19 @@ describe "Merchant API" do
     expect{Merchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
 end
+
+describe 'relationships' do
+  it "merchant's has items enpoints" do
+    merchant = create(:merchant)
+    item = create(:item, merchant: merchant)
+    item = create(:item, merchant: merchant)
+    item = create(:item, merchant: merchant)
+    item = create(:item, merchant: merchant)
+
+    get "/api/v1/merchants/#{merchant.id}/items"
+
+    expect(response).to be_successful
+    merchants_items = JSON.parse(response.body)
+    expect(merchants_items.size).to eq(4)
+  end
+end
