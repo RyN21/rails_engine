@@ -21,8 +21,9 @@ describe "Merchant API" do
 
   it "create an merchant" do
     merchant_params = {name: "Rock Gear"}
+    headers = { "CONTENT_TYPE" => "application/json" }
 
-    post '/api/v1/merchants', params: {merchant: merchant_params}
+    post '/api/v1/merchants', params: JSON.generate(merchant_params), headers: headers
     merchant = Merchant.last
     expect(response).to be_successful
     expect(merchant.name).to eq(merchant_params[:name])
@@ -32,8 +33,9 @@ describe "Merchant API" do
     id = create(:merchant).id
     previous_name = Merchant.last.name
     merchant_params   = { name: "Climbing Gear" }
+    headers = { "CONTENT_TYPE" => "application/json" }
 
-    put "/api/v1/merchants/#{id}", params: {merchant: merchant_params}
+    put "/api/v1/merchants/#{id}", params: JSON.generate(merchant_params), headers: headers
     merchant = Merchant.find_by(id: id)
 
     expect(response).to be_successful
@@ -51,16 +53,20 @@ end
 
 describe 'relationships' do
   it "merchant's has items endpoints" do
-    merchant = create(:merchant)
-    item = create(:item, merchant: merchant)
-    item = create(:item, merchant: merchant)
-    item = create(:item, merchant: merchant)
-    item = create(:item, merchant: merchant)
+    merchant1 = create(:merchant)
+    merchant2 = create(:merchant)
+    item1 = create(:item, merchant: merchant1)
+    item2 = create(:item, merchant: merchant1)
+    item3 = create(:item, merchant: merchant1)
+    item4 = create(:item, merchant: merchant2)
 
-    get "/api/v1/merchants/#{merchant.id}/items"
+    get "/api/v1/merchants/#{merchant1.id}/items"
 
     expect(response).to be_successful
     merchants_items = JSON.parse(response.body)
-    expect(merchants_items.size).to eq(4)
+    expect(merchants_items["data"].size).to eq(3)
+    expect(merchants_items["data"].first["id"].to_i).to eq(item1.id)
+    expect(merchants_items["data"].last["id"].to_i).to eq(item3.id)
+    expect(merchants_items["data"].last["id"].to_i).to_not eq(item4.id)
   end
 end

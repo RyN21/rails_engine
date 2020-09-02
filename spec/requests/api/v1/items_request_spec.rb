@@ -40,9 +40,9 @@ describe "Items API" do
     id            = create(:item, merchant: merch).id
     previous_name = Item.last.name
     item_params   = { name: "Quick Draws" }
-    
+    headers = { "CONTENT_TYPE" => "application/json" }
 
-    put "/api/v1/items/#{id}", params: JSON.generate(item_params)
+    put "/api/v1/items/#{id}", params: JSON.generate(item_params), headers: headers
     item = Item.find_by(id: id)
 
     expect(response).to be_successful
