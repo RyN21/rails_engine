@@ -57,4 +57,17 @@ describe "Items API" do
     expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
+
+  describe 'relationships' do
+    it "item has a merchant endpoint" do
+      merchant1 = create(:merchant)
+      item = create(:item, merchant: merchant1)
+
+      get "/api/v1/items/#{item.id}/merchant"
+
+      expect(response).to be_successful
+      merchant = JSON.parse(response.body)
+      expect(merchant["data"]["id"].to_i).to eq(merchant1.id)
+    end
+  end
 end

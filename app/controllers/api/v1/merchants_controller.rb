@@ -4,7 +4,12 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def show
-    render json: MerchantSerializer.new(Merchant.find(params[:id]))
+    if params[:item_id]
+      merchant_id = Item.find(params[:item_id]).merchant_id
+      render json: MerchantSerializer.new(Merchant.find(merchant_id))
+    else
+      render json: MerchantSerializer.new(Merchant.find(params[:id]))
+    end
   end
 
   def create
