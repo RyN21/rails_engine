@@ -6,9 +6,9 @@ namespace :db do
     info = {Customer    => "db/data/csv_files/customers.csv",
             Merchant    => "db/data/csv_files/merchants.csv",
             Item        => "db/data/csv_files/items.csv",
-            Sale        => "db/data/csv_files/transactions.csv",
             Invoice     => "db/data/csv_files/invoices.csv",
-            InvoiceItem => "db/data/csv_files/invoice_items.csv"}
+            InvoiceItem => "db/data/csv_files/invoice_items.csv",
+            Sale        => "db/data/csv_files/transactions.csv"}
 
     info.each do |object, path|
       object.destroy_all
