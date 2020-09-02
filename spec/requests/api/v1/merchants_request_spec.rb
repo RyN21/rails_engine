@@ -6,17 +6,17 @@ describe "Merchant API" do
 
     get '/api/v1/merchants'
     expect(response).to be_successful
-    merchants = JSON.parse(response.body)
-    expect(merchants['data'].size).to eq(4)
+    merchants = JSON.parse(response.body, symbolize_names: true)
+    expect(merchants[:data].size).to eq(4)
   end
 
   it "show page of merchant" do
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
-    merchant = JSON.parse(response.body)
+    merchant = JSON.parse(response.body, symbolize_names: true)
     expect(response).to be_successful
-    expect(merchant['data']['id'].to_i).to eq(id)
+    expect(merchant[:data][:id].to_i).to eq(id)
   end
 
   it "create an merchant" do
@@ -63,10 +63,10 @@ describe 'relationships' do
     get "/api/v1/merchants/#{merchant1.id}/items"
 
     expect(response).to be_successful
-    merchants_items = JSON.parse(response.body)
-    expect(merchants_items["data"].size).to eq(3)
-    expect(merchants_items["data"].first["id"].to_i).to eq(item1.id)
-    expect(merchants_items["data"].last["id"].to_i).to eq(item3.id)
-    expect(merchants_items["data"].last["id"].to_i).to_not eq(item4.id)
+    merchants_items = JSON.parse(response.body, symbolize_names: true)
+    expect(merchants_items[:data].size).to eq(3)
+    expect(merchants_items[:data].first[:id].to_i).to eq(item1.id)
+    expect(merchants_items[:data].last[:id].to_i).to eq(item3.id)
+    expect(merchants_items[:data].last[:id].to_i).to_not eq(item4.id)
   end
 end

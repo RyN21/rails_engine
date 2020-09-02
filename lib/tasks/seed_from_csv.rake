@@ -18,6 +18,7 @@ namespace :db do
         end
         object.create!(row.to_hash)
       end
+      ActiveRecord::Base.connection.reset_pk_sequence!("#{object}")
     end
   end
 end

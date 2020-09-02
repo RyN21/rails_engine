@@ -10,7 +10,7 @@ describe "Find endpoints" do
 
       value = merch1.name
 
-      get "/api/v1/merchants/find?attribute=#{value}"
+      get "/api/v1/merchants/find?name=#{value}"
       search_result = JSON.parse(response.body, symbolize_names: true)
       expect(response).to be_successful
       expect(search_result[:data][:attributes][:name]).to eq(merch1.name)
@@ -24,7 +24,7 @@ describe "Find endpoints" do
 
       value = "ring"
 
-      get "/api/v1/merchants/find_all?attribute=#{value}"
+      get "/api/v1/merchants/find_all?name=#{value}"
       search_result = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
@@ -44,7 +44,7 @@ describe "Find endpoints" do
 
       value = item3.name
 
-      get "/api/v1/items/find?attribute=#{value}"
+      get "/api/v1/items/find?name=#{value}"
       search_result = JSON.parse(response.body, symbolize_names: true)
       expect(search_result[:data][:attributes][:name]).to eq(item3.name)
     end
@@ -58,7 +58,7 @@ describe "Find endpoints" do
 
       value = "ring"
 
-      get "/api/v1/items/find_all?attribute=#{value}"
+      get "/api/v1/items/find_all?name=#{value}"
       search_result = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful

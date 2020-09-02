@@ -16,9 +16,9 @@ describe "Items API" do
     id    = create(:item, merchant: merch).id
 
     get "/api/v1/items/#{id}"
-    item = JSON.parse(response.body)
+    item = JSON.parse(response.body, symbolize_names: true)
     expect(response).to be_successful
-    expect(item['data']['id'].to_i).to eq(id)
+    expect(item[:data][:id].to_i).to eq(id)
   end
 
   it "create an item" do
@@ -66,8 +66,8 @@ describe "Items API" do
       get "/api/v1/items/#{item.id}/merchant"
 
       expect(response).to be_successful
-      merchant = JSON.parse(response.body)
-      expect(merchant["data"]["id"].to_i).to eq(merchant1.id)
+      merchant = JSON.parse(response.body, symbolize_names: true)
+      expect(merchant[:data][:id].to_i).to eq(merchant1.id)
     end
   end
 end
