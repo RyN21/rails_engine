@@ -22,7 +22,6 @@ class Api::V1::MerchantsController < ApplicationController
 
   def destroy
     Merchant.destroy(params[:id])
-    # render json: Merchant.delete(params[:id])
   end
 
   private
