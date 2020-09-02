@@ -50,7 +50,7 @@ describe "Merchant API" do
 end
 
 describe 'relationships' do
-  it "merchant's has items enpoints" do
+  it "merchant's has items endpoints" do
     merchant = create(:merchant)
     item = create(:item, merchant: merchant)
     item = create(:item, merchant: merchant)

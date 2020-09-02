@@ -13,8 +13,8 @@ namespace :db do
     info.each do |object, path|
       object.destroy_all
       CSV.foreach(path, headers: true) do |row|
-        if row[:unit_price]
-          row[:unit_price] = row[:unit_price].to_f / 100
+        if row['unit_price']
+          row['unit_price'] = row['unit_price'].to_f / 100
         end
         object.create!(row.to_hash)
       end

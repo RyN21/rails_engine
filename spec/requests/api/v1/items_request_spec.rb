@@ -27,8 +27,9 @@ describe "Items API" do
                    description: "Petzl, high quality draws",
                    unit_price: 7795,
                    merchant_id: merch.id}
+    headers = { "CONTENT_TYPE" => "application/json" }
 
-    post '/api/v1/items', params: {item: item_params}
+    post '/api/v1/items', params: JSON.generate(item_params), headers: headers
     item = Item.last
     expect(response).to be_successful
     expect(item.name).to eq(item_params[:name])
@@ -39,8 +40,9 @@ describe "Items API" do
     id            = create(:item, merchant: merch).id
     previous_name = Item.last.name
     item_params   = { name: "Quick Draws" }
+    
 
-    put "/api/v1/items/#{id}", params: {item: item_params}
+    put "/api/v1/items/#{id}", params: JSON.generate(item_params)
     item = Item.find_by(id: id)
 
     expect(response).to be_successful
@@ -51,7 +53,7 @@ describe "Items API" do
   it "destroy a record of an item" do
     merch = create(:merchant)
     item  = create(:item, merchant: merch)
-    
+
     expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
