@@ -20,10 +20,10 @@ describe "Budiness Intelligence Endpoints" do
     @customer1 = create(:customer)
     @customer2 = create(:customer)
 
-    @invoice1 = create(:invoice, customer: @customer1, merchant: @merch1, created_at: "2020-01-01")
-    @invoice2 = create(:invoice, customer: @customer1, merchant: @merch2, created_at: "2020-02-01")
-    @invoice3 = create(:invoice, customer: @customer2, merchant: @merch3, created_at: "2020-02-21")
-    @invoice4 = create(:invoice, customer: @customer2, merchant: @merch4, created_at: "2020-09-01")
+    @invoice1 = create(:invoice, customer: @customer1, merchant: @merch1, updated_at: "2020-01-01")
+    @invoice2 = create(:invoice, customer: @customer1, merchant: @merch2, updated_at: "2020-02-01")
+    @invoice3 = create(:invoice, customer: @customer2, merchant: @merch3, updated_at: "2020-02-21")
+    @invoice4 = create(:invoice, customer: @customer2, merchant: @merch4, updated_at: "2020-09-01")
 
     @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, quantity: 10, unit_price: 10.00)
     @invoice_item2 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, quantity: 10, unit_price: 10.00)
@@ -71,7 +71,7 @@ describe "Budiness Intelligence Endpoints" do
   it "revenue across date range" do
     headers = { "CONTENT_TYPE" => "application/json" }
     start_date = "2020-01-21"
-    end_date = "2020-08-22"
+    end_date   = "2020-08-22"
 
     get "/api/v1/revenue?start=#{start_date}&end=#{end_date}"
     result = JSON.parse(response.body, symbolize_names: true)

@@ -32,13 +32,10 @@ class BusinessIntelligence
   end
 
   def revenue_between_dates(start_date, end_date)
-    updated_at: Date.parse(start_date).beginning_of_day..Date.parse(end_date).end_of_day
-    require "pry"; binding.pry
     Merchant.joins(:invoices)
-            .joins(:invoice_item)
+            .joins(:invoice_items)
             .joins(:sales)
             .select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-            .where("sales.result='success' AND invoices.status='shipped'")
-            
+            .where("sales.result='success' AND invoices.status='shipped' AND invoices.updated_at BETWEEN '#{start_date}' AND '#{end_date}'")
   end
 end

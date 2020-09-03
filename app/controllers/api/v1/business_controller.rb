@@ -18,7 +18,7 @@ class Api::V1::BusinessController < ApplicationController
 
   def dates_revenue
     result = BusinessIntelligence.new
-    result.revenue_between_dates(params[:start], params[:end])
+    parsed_result = JSON.parse(result.revenue_between_dates(params[:start], params[:end]).to_json)
     render json: RevenueSerializer.handroll(parsed_result)
   end
 end

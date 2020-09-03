@@ -4,7 +4,7 @@ class RevenueSerializer
       "data" => {
         "id" => nil,
         "attributes" => {
-          "revenue" => json.first["revenue"]
+          "revenue" => json.first["revenue"].round(2)
         }
       }
     }

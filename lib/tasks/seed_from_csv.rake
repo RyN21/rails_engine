@@ -16,6 +16,10 @@ namespace :db do
         if row['unit_price']
           row['unit_price'] = row['unit_price'].to_f / 100
         end
+        if row['status']
+          row['updated_at'] = row['updated_at'].to_date.strftime("%Y-%m-%d")
+          row['created_at'] = row['created_at'].to_date.strftime("%Y-%m-%d")
+        end
         object.create!(row.to_hash)
       end
       ActiveRecord::Base.connection.reset_pk_sequence!("#{object}")
