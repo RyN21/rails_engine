@@ -48,6 +48,7 @@ end
 group :test do
   gem 'simplecov'
   gem 'faker'
+  gem 'shoulda-matchers'
 end
 
 
