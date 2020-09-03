@@ -20,10 +20,10 @@ describe "Budiness Intelligence Endpoints" do
     @customer1 = create(:customer)
     @customer2 = create(:customer)
 
-    @invoice1 = create(:invoice, customer: @customer1, merchant: @merch1)
-    @invoice2 = create(:invoice, customer: @customer1, merchant: @merch2)
-    @invoice3 = create(:invoice, customer: @customer2, merchant: @merch3)
-    @invoice4 = create(:invoice, customer: @customer2, merchant: @merch4)
+    @invoice1 = create(:invoice, customer: @customer1, merchant: @merch1, created_at: "2020-01-01")
+    @invoice2 = create(:invoice, customer: @customer1, merchant: @merch2, created_at: "2020-02-01")
+    @invoice3 = create(:invoice, customer: @customer2, merchant: @merch3, created_at: "2020-02-21")
+    @invoice4 = create(:invoice, customer: @customer2, merchant: @merch4, created_at: "2020-09-01")
 
     @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, quantity: 10, unit_price: 10.00)
     @invoice_item2 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, quantity: 10, unit_price: 10.00)
@@ -46,6 +46,7 @@ describe "Budiness Intelligence Endpoints" do
     get "/api/v1/merchants/most_revenue?quantity=#{quantity}"
     result = JSON.parse(response.body, symbolize_names: true)
 
+    expect(response).to be_successful
     expect(result[:data].size).to eq(2)
 
     expect(result[:data].first[:attributes][:name]).to eq(@merch1.name)
@@ -59,6 +60,7 @@ describe "Budiness Intelligence Endpoints" do
     get "/api/v1/merchants/most_items?quantity=#{quantity}"
     result = JSON.parse(response.body, symbolize_names: true)
 
+    expect(response).to be_successful
     expect(result[:data].size).to eq(4)
     expect(result[:data].first[:attributes][:name]).to eq(@merch1.name)
     expect(result[:data].second[:attributes][:name]).to eq(@merch4.name)
@@ -67,7 +69,16 @@ describe "Budiness Intelligence Endpoints" do
   end
 
   it "revenue across date range" do
+    headers = { "CONTENT_TYPE" => "application/json" }
+    start_date = "2020-01-21"
+    end_date = "2020-08-22"
 
+    get "/api/v1/revenue?start=#{start_date}&end=#{end_date}"
+    result = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response).to be_successful
+    expect(result[:data][:attributes][:revenue]).to eq(150.00)
+    expect(result[:data][:id]).to eq(nil)
   end
 
   it "revenue for a merchant" do
@@ -76,7 +87,8 @@ describe "Budiness Intelligence Endpoints" do
     get "/api/v1/merchants/#{@merch1.id}/revenue"
     result = JSON.parse(response.body, symbolize_names: true)
 
-    expect(result[:data].size).to eq(1)
-    expect(result[:data][:attributes][:name]).to eq(@merch1.name)
+    expect(response).to be_successful
+    expect(result[:data][:attributes][:revenue]).to eq(300.00)
+    expect(result[:data][:id]).to eq(nil)
   end
 end

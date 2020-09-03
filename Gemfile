@@ -39,7 +39,6 @@ group :development, :test do
   gem 'pry'
   gem 'factory_bot_rails'
   gem 'csv'
-  gem 'simplecov'
 end
 
 group :development do
@@ -47,6 +46,7 @@ group :development do
 end
 
 group :test do
+  gem 'simplecov'
   gem 'faker'
 end
 
