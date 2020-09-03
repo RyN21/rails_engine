@@ -3,4 +3,9 @@ class Api::V1::BusinessController < ApplicationController
     result = BusinessIntelligence.new
     render json: MerchantSerializer.new(result.most_revenue(params[:quantity]))
   end
+
+  def most_items
+    result = BusinessIntelligence.new
+    render json: MerchantSerializer.new(result.most_items(params[:quantity]))
+  end
 end

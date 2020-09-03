@@ -39,13 +39,44 @@ describe "Budiness Intelligence Endpoints" do
     @sales1 = create(:sale, invoice_id: @invoice4.id)
   end
 
-  it "has merchants with most revenue" do
+  it "merchants with most revenue" do
     headers = { "CONTENT_TYPE" => "application/json" }
     quantity = 2
 
     get "/api/v1/merchants/most_revenue?quantity=#{quantity}"
-    results = JSON.parse(response.body, symbolize_names: true)
-    require "pry"; binding.pry
-    expect
+    result = JSON.parse(response.body, symbolize_names: true)
+
+    expect(result[:data].size).to eq(2)
+
+    expect(result[:data].first[:attributes][:name]).to eq(@merch1.name)
+    expect(result[:data].last[:attributes][:name]).to eq(@merch4.name)
+  end
+
+  it "merchant with most items sold" do
+    headers = { "CONTENT_TYPE" => "application/json" }
+    quantity = 4
+
+    get "/api/v1/merchants/most_items?quantity=#{quantity}"
+    result = JSON.parse(response.body, symbolize_names: true)
+
+    expect(result[:data].size).to eq(4)
+    expect(result[:data].first[:attributes][:name]).to eq(@merch1.name)
+    expect(result[:data].second[:attributes][:name]).to eq(@merch4.name)
+    expect(result[:data].third[:attributes][:name]).to eq(@merch3.name)
+    expect(result[:data].fourth[:attributes][:name]).to eq(@merch2.name)
+  end
+
+  it "revenue across date range" do
+
+  end
+
+  it "revenue for a merchant" do
+    headers = { "CONTENT_TYPE" => "application/json" }
+
+    get "/api/v1/merchants/#{@merch1.id}/revenue"
+    result = JSON.parse(response.body, symbolize_names: true)
+
+    expect(result[:data].size).to eq(1)
+    expect(result[:data][:attributes][:name]).to eq(@merch1.name)
   end
 end
